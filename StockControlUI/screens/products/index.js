@@ -1,6 +1,6 @@
-import {View, Text, StyleSheet} from 'react-native';
+import { View, Text, StyleSheet, Button } from 'react-native';
 
-export default function ProductScreen() {
+export default function ProductScreen({navigation}) {
     return (
         <View style={styles.container}>
             <Text>Products main screen</Text>

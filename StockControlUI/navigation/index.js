@@ -1,13 +1,17 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { FontAwesome } from '@expo/vector-icons';
 
+import FontAwesomeIcon from '../helpers/icons/fontawesomeIcons';
 import ProductsScreen from '../screens/products/index';
-import ProductCategoriesScreen from '../screens/productCategories/index';
+import ProductCategoryScreen from '../screens/productCategories/index';
+import CreateProductCategory from '../screens/productCategories/create';
 
 const Stack = createNativeStackNavigator();
 const BottomTab = createBottomTabNavigator();
+
+const productsTitle = 'Produtos';
+const productCategoriesTitle = 'Categoria de produtos';
 
 export default function Navigation() {
     return (
@@ -21,35 +25,33 @@ function RootNavigator() {
     return (
         <Stack.Navigator>
             <Stack.Screen name="Root" component={BottomTabNavigator} options={{ headerShown: false }} />
+            <Stack.Screen name="CreateProductCategory" component={CreateProductCategory} options={{ title: productCategoriesTitle }} />
         </Stack.Navigator>
     )
 }
 
 function BottomTabNavigator() {
     return (
-        <BottomTab.Navigator initialRouteName='Products'>
+        <BottomTab.Navigator
+            initialRouteName='Products'>
             <BottomTab.Screen
                 name='Products'
                 component={ProductsScreen}
                 options={{
-                    title: "Produtos",
-                    tabBarIcon: () => <TabBarIcon name="stack-exchange"></TabBarIcon>
+                    title: productsTitle,
+                    tabBarIcon: () => <FontAwesomeIcon name="inbox"></FontAwesomeIcon>
                 }}>
             </BottomTab.Screen>
 
             <BottomTab.Screen
                 name='ProductsCategories'
-                component={ProductCategoriesScreen}
+                component={ProductCategoryScreen}
                 options={{
-                    title: "Categoria de produtos",
-                    tabBarIcon: () => <TabBarIcon name="stack-exchange"></TabBarIcon>
+                    title: productCategoriesTitle,
+                    tabBarIcon: () => <FontAwesomeIcon name="sitemap"></FontAwesomeIcon>
                 }}>
             </BottomTab.Screen>
         </BottomTab.Navigator>
 
     )
-}
-
-function TabBarIcon(props) {
-    return <FontAwesome size={30} style={{ marginBottom: -3 }} {...props}></FontAwesome>
 }
