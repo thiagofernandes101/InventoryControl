@@ -12,8 +12,5 @@ export function IsCodePropertyAValidNumber(codePropertyValue) {
     let isCodePropertyANumber = numberValidationProperties.IsNumber(codePropertyValue);
     let isCodeValueGreaterThanZero = Number.parseInt(codePropertyValue) > 0;
 
-    console.log(`isCodePropertyANumber: ${isCodePropertyANumber}`);
-    console.log(`isCodeValueGreaterThanZero: ${isCodeValueGreaterThanZero}`);
-
     return isCodePropertyANumber && isCodeValueGreaterThanZero;
 }

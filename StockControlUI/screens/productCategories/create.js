@@ -1,19 +1,19 @@
 import { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
 import * as productCategoryValidations from '../../validations/ProductionCategoryFieldsValidation';
+import baseUrl from '../../services/baseApiUrl';
 
 export default function CreateProductCategory({ navigation }) {
     const [code, setCode] = useState();
     const [description, setDescription] = useState();
 
     async function saveCategory() {
-        let url = 'http://192.168.0.125:3000/api/category/new';
-
+        let url = `${baseUrl}/category/new`;
         let productCategoryView = {
             code: code,
             description: description
         }
-        
+
         if (productCategoryValidations.IsValid(productCategoryView)) {
             try {
                 let result = await fetch(url, {
@@ -23,7 +23,7 @@ export default function CreateProductCategory({ navigation }) {
                     },
                     body: JSON.stringify(productCategoryView)
                 });
-    
+
                 if (result.status == 200) {
                     Alert.alert("Sucesso", `Requisição feita com sucesso.\nDeseja cadastrar uma nova categoria?`, [
                         {

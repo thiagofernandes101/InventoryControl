@@ -11,15 +11,9 @@ class ProductCategoryController {
         
         await productCategory.save()
         .then(successResponse => {
-            console.log("Sucesso ao inserir uma categoria");
-            console.log("Resposta de sucesso:");
-            console.log(successResponse);
             return response.status(200).json(successResponse);
         })
         .catch(errorResponse => {
-            console.log("Ocorreu um problema ao inserir uma categoria");
-            console.log("Resposta de erro:");
-            console.log(errorResponse);
             return response.status(500).json(errorResponse);
         })
     }
