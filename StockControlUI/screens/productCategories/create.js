@@ -56,11 +56,20 @@ export default function CreateProductCategory({ navigation }) {
                 }
             }
             catch (error) {
-                console.log(error)
+                console.log(error);
+                Alert.alert("Erro", `Ocorreu um erro inesperado.\nVerifique o arquivo de log.`, [
+                    {
+                        text: "OK",
+                        onPress: () => {
+                            setCode("");
+                            setDescription("");
+                        }
+                    }
+                ])
             }
         }
         else {
-            Alert.alert("Erro", `Verifique se os campos obrigatórios código e descrição foram preenchidos corretamente`, [
+            Alert.alert("Erro", `Verifique se os campos obrigatórios código e descrição foram preenchidos corretamente.`, [
                 {
                     text: "OK"
                 }

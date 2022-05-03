@@ -18,9 +18,22 @@ class ProductCategoryController {
         })
     }
 
-    async GetById(request, response) {
+    async GetRecordsById(request, response) {
         let id = request.params.id;
-        let productCategory = await ProductCategoryModel.findById(id);
+        
+        await ProductCategoryModel.findOne({ "code": id })
+            .then(successResponse => { return response.status(200).json(successResponse) })
+            .catch(errorResponse => { return response.status(500).json(errorResponse) });
+    }
+
+    async GetAllRecords(request, response) {
+        await ProductCategoryModel.find().sort('code')
+        .then(successResponse => {
+            return response.status(200).json(successResponse);
+        })
+        .catch(errorResponse => {
+            return response.status(500).json(errorResponse);
+        })
     }
 
     async Test(request, response) {
