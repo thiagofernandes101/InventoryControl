@@ -33,7 +33,19 @@ class ProductCategoryController {
         })
         .catch(errorResponse => {
             return response.status(500).json(errorResponse);
+        });
+    }
+
+    async RemoveRecord(request, response) {
+        let id = request.params.id;
+        
+        await ProductCategoryModel.findOneAndDelete({"code": id})
+        .then(successResponse => {
+            return response.status(200).json(successResponse);
         })
+        .catch(errorResponse => {
+            return response.status(500).json(errorResponse);
+        });
     }
 
     async Test(request, response) {

@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, Pressable, ScrollView } from 'react-native';
-import { Alert } from 'react-native-web';
+import { View, Text, StyleSheet, Pressable, ScrollView, Alert } from 'react-native';
 import baseUrl from '../../services/baseApiUrl';
 import FontAwesomeIcon from '../../helpers/icons/FontawesomeIcons';
 
@@ -27,9 +26,70 @@ export default function ProductCategoryScreen({ navigation }) {
 
       if (result.status == 200) {
         let productCategoriesResponse = await result.json();
-        
+
         SetProductCategories(productCategoriesResponse);
         SetReloadScreen(false);
+      }
+      else {
+        let errorMessage = await result.json();
+
+        Alert.alert("Erro", `${errorMessage.error}`, [
+          {
+            text: "OK",
+            onPress: () => {
+              navigation.navigate('Products');
+            }
+          }
+        ]);
+      }
+    }
+    catch (error) {
+      console.log(error);
+      Alert.alert("Erro", `Ocorreu um erro inesperado.\nVerifique o arquivo de log.`, [
+        {
+          text: "OK",
+          onPress: () => {
+            navigation.navigate('Products');
+          }
+        }
+      ]);
+    }
+  }
+
+  function NotificationOfRemovalOfAProductCategory(code) {
+    console.log(`Código: ${code}`);
+    
+    Alert.alert("Alerta", `Realmente deseja excluir a categoria de código ${code}`, [
+      {
+        text: "Sim",
+        onPress: () => {
+          RemoveProductCategory(code);
+          SetReloadScreen(true);
+        }
+      },
+      {
+        text: "Não",
+        style: 'cancel'
+      }
+    ]);
+  }
+
+  async function RemoveProductCategory(code) {
+    let url = `${baseUrl}/category/delete/${code}`;
+    
+    try {
+      let result = await fetch(url, {
+        method: 'DELETE'
+      });
+
+      if (result.status == 200) {
+        let productCategoriesResponse = await result.json();
+
+        Alert.alert("Alerta", `O produto com o código de categoria ${productCategoriesResponse.code} foi excluído com sucesso`, [
+          {
+            text: "OK"
+          }
+        ]);
       }
       else {
         let errorMessage = await result.json();
@@ -79,12 +139,14 @@ export default function ProductCategoryScreen({ navigation }) {
                       <FontAwesomeIcon name="edit" size={20} color="#FFFFFF" />
                     </Text>
                   </Pressable>
+
                   <Pressable style={[styles.cardActionButton, styles.deleteActivityTypeButton, styles.shadowComponent]}
-                    onPress={() => console.log('Inserir o método de remoção de categoria de produtos')}>
+                    onPress={() => NotificationOfRemovalOfAProductCategory(productCategories.code)}>
                     <Text style={styles.buttonText}>
                       <FontAwesomeIcon name="remove" size={20} color="#FFFFFF" />
                     </Text>
                   </Pressable>
+
                   <Pressable style={[styles.cardActionButton, styles.infoActivityTypeButton, styles.shadowComponent]}
                     onPress={() => navigation.navigate('ProductCategoryDetails', { id: productCategories.code })}>
                     <Text style={styles.buttonText}>
