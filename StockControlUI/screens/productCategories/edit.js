@@ -1,14 +1,69 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
 import * as productCategoryValidations from '../../validations/ProductionCategoryFieldsValidation';
 import baseUrl from '../../services/baseApiUrl';
 
-export default function CreateProductCategory({ navigation }) {
+export default function EdityProductCategory({ navigation, route }) {
+    const { id } = route.params;
+
     const [code, SetCode] = useState();
     const [description, SetDescription] = useState();
+    const [reloadScreen, SetReloadScreen] = useState(true);
 
-    async function SaveCategory() {
-        let url = `${baseUrl}/category/new`;
+    useEffect(() => {
+        LoadProductCategory();
+    }, [reloadScreen]);
+
+    async function LoadProductCategory() {
+        if (reloadScreen) {
+            await ProductCategory();
+        }
+    }
+
+    async function ProductCategory() {
+        let url = `${baseUrl}/category/details/${id}`;
+
+        try {
+            let result = await fetch(url);
+
+            if (result.status == 200) {
+                let productCategoryResponse = await result.json();
+
+                SetCode(productCategoryResponse.code.toString());
+                SetDescription(productCategoryResponse.description);
+
+                SetReloadScreen(false);
+            }
+            else {
+                let errorMessage = await result.json();
+                console.log(errorMessage.error);
+
+                Alert.alert("Erro", `${errorMessage.error}`, [
+                    {
+                        text: "OK",
+                        onPress: () => {
+                            navigation.navigate("ProductsCategories");
+                        }
+                    }
+                ]);
+            }
+        }
+        catch (error) {
+            console.log(error);
+            Alert.alert("Erro", `Ocorreu um erro inesperado.\nVerifique o arquivo de log.`, [
+                {
+                    text: "OK",
+                    onPress: () => {
+                        navigation.navigate("ProductsCategories");
+                    }
+                }
+            ]);
+        }
+    }
+
+    async function EditCategory() {
+        let url = `${baseUrl}/category/edit/${code}`;
+
         let productCategoryView = {
             code: code,
             description: description
@@ -17,7 +72,7 @@ export default function CreateProductCategory({ navigation }) {
         if (productCategoryValidations.IsValid(productCategoryView)) {
             try {
                 let result = await fetch(url, {
-                    method: 'POST',
+                    method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json'
                     },
@@ -25,18 +80,17 @@ export default function CreateProductCategory({ navigation }) {
                 });
 
                 if (result.status == 200) {
-                    Alert.alert("Sucesso", `Requisição feita com sucesso.\nDeseja cadastrar uma nova categoria?`, [
+                    Alert.alert("Sucesso", `Requisição feita com sucesso.\nDeseja voltar para a tela principal?`, [
                         {
                             text: "Sim",
                             onPress: () => {
-                                SetCode("");
-                                SetDescription("");
+                                navigation.navigate("ProductsCategories");
                             }
                         },
                         {
                             text: "Não",
                             onPress: () => {
-                                navigation.navigate("ProductsCategories");
+                                SetDescription("");
                             }
                         }
                     ])
@@ -48,8 +102,7 @@ export default function CreateProductCategory({ navigation }) {
                         {
                             text: "OK",
                             onPress: () => {
-                                SetCode("");
-                                SetDescription("");
+                                navigation.navigate("ProductsCategories");
                             }
                         }
                     ])
@@ -61,8 +114,7 @@ export default function CreateProductCategory({ navigation }) {
                     {
                         text: "OK",
                         onPress: () => {
-                            SetCode("");
-                            SetDescription("");
+                            navigation.navigate("ProductsCategories");
                         }
                     }
                 ])
@@ -81,26 +133,24 @@ export default function CreateProductCategory({ navigation }) {
         <View style={[styles.container]}>
             <View>
                 <View style={[styles.titleGroup]}>
-                    <Text style={[styles.title]}>Nova categoria</Text>
+                    <Text style={[styles.title]}>Editar categoria</Text>
                 </View>
                 <View style={[styles.formGroup]}>
                     <TextInput
                         style={[styles.textInput]}
-                        placeholder="Código (obrigatório)"
                         onChangeText={(value) => SetCode(value)}
                         value={code}
-                        keyboardType="numeric"></TextInput>
+                        editable={false}></TextInput>
                 </View>
                 <View style={[styles.formGroup]}>
                     <TextInput
                         style={[styles.textInput]}
-                        placeholder="Descrição (obrigatório)"
                         onChangeText={(value) => SetDescription(value)}
                         value={description}></TextInput>
                 </View>
             </View>
             <View style={[styles.formGroupDirection]}>
-                <Button title='Salvar' color={"#008000"} onPress={() => SaveCategory()}></Button>
+                <Button title='Editar' color={"#008000"} onPress={() => EditCategory()}></Button>
                 <Button title='Cancelar' color={"#FF0000"} onPress={() => navigation.navigate("ProductsCategories")}></Button>
             </View>
         </View>

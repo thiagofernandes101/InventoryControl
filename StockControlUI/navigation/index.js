@@ -7,6 +7,7 @@ import ProductsScreen from '../screens/products/index';
 import ProductCategoryScreen from '../screens/productCategories/index';
 import CreateProductCategory from '../screens/productCategories/create';
 import ProductCategoryDetails from '../screens/productCategories/details';
+import EdityProductCategory from '../screens/productCategories/edit';
 
 const Stack = createNativeStackNavigator();
 const BottomTab = createBottomTabNavigator();
@@ -28,6 +29,7 @@ function RootNavigator() {
             <Stack.Screen name="Root" component={BottomTabNavigator} options={{ headerShown: false }} />
             <Stack.Screen name="CreateProductCategory" component={CreateProductCategory} options={{ title: productCategoriesTitle }} />
             <Stack.Screen name="ProductCategoryDetails" component={ProductCategoryDetails} options={{ title: productCategoriesTitle }} />
+            <Stack.Screen name="EdityProductCategory" component={EdityProductCategory} options={{ title: productCategoriesTitle }} />
         </Stack.Navigator>
     )
 }

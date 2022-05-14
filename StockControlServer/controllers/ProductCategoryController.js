@@ -8,19 +8,19 @@ class ProductCategoryController {
 
         console.log("Objeto a ser salvo");
         console.log(productCategory);
-        
+
         await productCategory.save()
-        .then(successResponse => {
-            return response.status(200).json(successResponse);
-        })
-        .catch(errorResponse => {
-            return response.status(500).json(errorResponse);
-        })
+            .then(successResponse => {
+                return response.status(200).json(successResponse);
+            })
+            .catch(errorResponse => {
+                return response.status(500).json(errorResponse);
+            })
     }
 
     async GetRecordsById(request, response) {
         let id = request.params.id;
-        
+
         await ProductCategoryModel.findOne({ "code": id })
             .then(successResponse => { return response.status(200).json(successResponse) })
             .catch(errorResponse => { return response.status(500).json(errorResponse) });
@@ -28,24 +28,36 @@ class ProductCategoryController {
 
     async GetAllRecords(request, response) {
         await ProductCategoryModel.find().sort('code')
-        .then(successResponse => {
-            return response.status(200).json(successResponse);
-        })
-        .catch(errorResponse => {
-            return response.status(500).json(errorResponse);
-        });
+            .then(successResponse => {
+                return response.status(200).json(successResponse);
+            })
+            .catch(errorResponse => {
+                return response.status(500).json(errorResponse);
+            });
     }
 
     async RemoveRecord(request, response) {
         let id = request.params.id;
-        
-        await ProductCategoryModel.findOneAndDelete({"code": id})
-        .then(successResponse => {
-            return response.status(200).json(successResponse);
-        })
-        .catch(errorResponse => {
-            return response.status(500).json(errorResponse);
-        });
+
+        await ProductCategoryModel.findOneAndDelete({ "code": id })
+            .then(successResponse => {
+                return response.status(200).json(successResponse);
+            })
+            .catch(errorResponse => {
+                return response.status(500).json(errorResponse);
+            });
+    }
+
+    async UpdateRecord(request, response) {
+        let id = request.params.id;
+
+        await ProductCategoryModel.findOneAndUpdate({ "code": id }, request.body, { new: true })
+            .then(successResponse => {
+                return response.status(200).json(successResponse);
+            })
+            .catch(errorResponse => {
+                return response.status(500).json(errorResponse);
+            });
     }
 
     async Test(request, response) {

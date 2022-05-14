@@ -8,4 +8,3 @@ npm-debug.*
 *.mobileprovision
 *.orig.*
 package-lock.json
-dao/configurations/

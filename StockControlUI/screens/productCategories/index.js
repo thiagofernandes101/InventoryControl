@@ -58,7 +58,7 @@ export default function ProductCategoryScreen({ navigation }) {
 
   function NotificationOfRemovalOfAProductCategory(code) {
     console.log(`Código: ${code}`);
-    
+
     Alert.alert("Alerta", `Realmente deseja excluir a categoria de código ${code}`, [
       {
         text: "Sim",
@@ -76,7 +76,7 @@ export default function ProductCategoryScreen({ navigation }) {
 
   async function RemoveProductCategory(code) {
     let url = `${baseUrl}/category/delete/${code}`;
-    
+
     try {
       let result = await fetch(url, {
         method: 'DELETE'
