@@ -129,8 +129,8 @@ export default function ProductCategoryScreen({ navigation }) {
           {
             productCategories.map((productCategories, index) => (
               <View style={[styles.card, styles.shadowComponent]} key={index.toString()}>
-                <Text style={styles.activityTypeMainText}>{productCategories.code}</Text>
-                <Text style={styles.activityTypeDescriptionText}>{productCategories.description}</Text>
+                <Text style={styles.mainText}>{productCategories.code}</Text>
+                <Text style={styles.descriptionText}>{productCategories.description}</Text>
 
                 <View style={[styles.cardActionComponentDirection]}>
                   <Pressable style={[styles.cardActionButton, styles.editActivityTypeButton, styles.shadowComponent]}
@@ -225,12 +225,12 @@ const styles = StyleSheet.create({
     backgroundColor: "#1CA5B8",
     marginLeft: 10
   },
-  activityTypeMainText: {
+  mainText: {
     fontWeight: "bold",
     marginBottom: 5,
     fontSize: 18
   },
-  activityTypeDescriptionText: {
+  descriptionText: {
     marginBottom: 5
   },
   scrollWholeScreenWidth: {
