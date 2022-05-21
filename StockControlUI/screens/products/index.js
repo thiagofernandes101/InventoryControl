@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, Pressable, Alert, ScrollView } from 'react-native';
 import baseUrl from '../../services/baseApiUrl';
-import FontAwesomeIcon from '../../helpers/icons/FontawesomeIcons';
+import FontAwesomeIcon from '../../helpers/icons/fontawesomeIcons';
 
 export default function ProductScreen({ navigation }) {
   const [products, SetProducts] = useState([]);

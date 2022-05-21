@@ -2,7 +2,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import FontAwesomeIcon from '../helpers/icons/FontawesomeIcons';
+import FontAwesomeIcon from '../helpers/icons/fontawesomeIcons';
 import ProductsScreen from '../screens/products/index';
 import ProductCategoryScreen from '../screens/productCategories/index';
 import CreateProductCategory from '../screens/productCategories/create';
